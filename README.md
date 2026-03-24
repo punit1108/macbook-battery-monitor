@@ -14,24 +14,54 @@ A macOS battery analytics tool with a terminal UI. Runs a lightweight background
 
 ## Requirements
 
-- macOS (uses `ioreg`, `pmset`, `top`)
-- Go 1.21+
+- macOS (arm64 or x86_64)
+- Git
+- Go 1.21+ (installed automatically if Homebrew is present)
 
 ## Install
 
+### One-line install (recommended)
+
 ```bash
-git clone <repo>
+curl -fsSL https://raw.githubusercontent.com/ppunit/mac_battery/main/install.sh | bash
+```
+
+The script will:
+1. Check for Go and install it via Homebrew if missing
+2. Clone the repo, build the binary, and install it to `~/.local/bin/mac-battery`
+3. Add `~/.local/bin` to your `$PATH` if needed
+4. Prompt to install the background daemon (recommended)
+
+To install to a custom location:
+
+```bash
+INSTALL_DIR=/usr/local/bin curl -fsSL https://raw.githubusercontent.com/ppunit/mac_battery/main/install.sh | bash
+```
+
+### Manual install
+
+```bash
+git clone https://github.com/ppunit/mac_battery.git
 cd mac_battery
 go build -o mac-battery .
+./mac-battery install   # installs daemon + copies binary to ~/.local/bin
 ```
 
-To start collecting data automatically on every login:
+### Background daemon
+
+The daemon collects battery and process data continuously, even when the TUI is closed. Without it, the App Drain history tab only shows data from sessions when the TUI was open.
 
 ```bash
-./mac-battery install
+mac-battery install      # register as LaunchAgent, auto-start on login
+mac-battery uninstall    # remove daemon (collected data is preserved)
 ```
 
-This copies the binary to `~/.local/bin/mac-battery` and registers a LaunchAgent that starts the daemon at login and restarts it if it crashes.
+### Verify
+
+```bash
+launchctl list | grep mac-battery   # should show a PID
+tail -f ~/.mac_battery/daemon.log   # live daemon output
+```
 
 ## Usage
 
