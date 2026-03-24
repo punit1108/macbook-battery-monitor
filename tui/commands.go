@@ -4,8 +4,8 @@ import (
 	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/ppunit/mac_battery/collect"
-	"github.com/ppunit/mac_battery/store"
+	"github.com/ppunit/volt/collect"
+	"github.com/ppunit/volt/store"
 )
 
 func cmdTick() tea.Cmd {

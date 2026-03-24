@@ -8,7 +8,7 @@ import (
 	"text/template"
 )
 
-const plistLabel = "com.ppunit.mac-battery"
+const plistLabel = "com.ppunit.volt"
 const plistTemplate = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
@@ -50,8 +50,8 @@ func Install() error {
 
 	// Resolve paths.
 	binDir := filepath.Join(home, ".local", "bin")
-	binPath := filepath.Join(binDir, "mac-battery")
-	logDir := filepath.Join(home, ".mac_battery")
+	binPath := filepath.Join(binDir, "volt")
+	logDir := filepath.Join(home, ".volt")
 	logPath := filepath.Join(logDir, "daemon.log")
 	agentsDir := filepath.Join(home, "Library", "LaunchAgents")
 	plistPath := filepath.Join(agentsDir, plistLabel+".plist")
@@ -103,7 +103,7 @@ func Install() error {
 	fmt.Println("Logs:", logPath)
 	fmt.Println("Data:", filepath.Join(logDir, "data/"))
 	fmt.Println()
-	fmt.Println("To stop and remove: mac-battery uninstall")
+	fmt.Println("To stop and remove: volt uninstall")
 	return nil
 }
 
@@ -115,7 +115,7 @@ func Uninstall() error {
 	}
 
 	plistPath := filepath.Join(home, "Library", "LaunchAgents", plistLabel+".plist")
-	binPath := filepath.Join(home, ".local", "bin", "mac-battery")
+	binPath := filepath.Join(home, ".local", "bin", "volt")
 
 	// Unload — ignore error if not loaded.
 	out, err := exec.Command("launchctl", "unload", plistPath).CombinedOutput()
@@ -138,7 +138,7 @@ func Uninstall() error {
 	fmt.Println("✓ binary removed")
 
 	fmt.Println()
-	fmt.Println("Uninstall complete. Your collected data is preserved at ~/.mac_battery/data/")
+	fmt.Println("Uninstall complete. Your collected data is preserved at ~/.volt/data/")
 	return nil
 }
 

@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/ppunit/mac_battery/collect"
+	"github.com/ppunit/volt/collect"
 )
 
 // Record is a single data point written to the JSONL store.
@@ -41,7 +41,7 @@ func DataDir() (string, error) {
 	if err != nil {
 		return "", err
 	}
-	dir := filepath.Join(home, ".mac_battery", "data")
+	dir := filepath.Join(home, ".volt", "data")
 	if err := os.MkdirAll(dir, 0755); err != nil {
 		return "", err
 	}

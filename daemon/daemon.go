@@ -7,8 +7,8 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/ppunit/mac_battery/collect"
-	"github.com/ppunit/mac_battery/store"
+	"github.com/ppunit/volt/collect"
+	"github.com/ppunit/volt/store"
 )
 
 // Run starts the background collection loop.
@@ -20,11 +20,11 @@ func Run() {
 
 	// Ensure the data directory exists.
 	if _, err := store.DataDir(); err != nil {
-		fmt.Fprintln(os.Stderr, "mac-battery daemon: cannot create data dir:", err)
+		fmt.Fprintln(os.Stderr, "volt daemon: cannot create data dir:", err)
 		os.Exit(1)
 	}
 
-	log.SetPrefix("[mac-battery daemon] ")
+	log.SetPrefix("[volt daemon] ")
 	log.SetFlags(log.Ldate | log.Ltime)
 	log.Println("started")
 

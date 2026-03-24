@@ -6,7 +6,7 @@ import (
 
 	"github.com/charmbracelet/bubbles/table"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/ppunit/mac_battery/collect"
+	"github.com/ppunit/volt/collect"
 )
 
 func buildProcessTable(procs []collect.Process, width int) table.Model {

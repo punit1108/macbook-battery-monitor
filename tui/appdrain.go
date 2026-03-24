@@ -7,7 +7,7 @@ import (
 
 	"github.com/charmbracelet/bubbles/table"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/ppunit/mac_battery/store"
+	"github.com/ppunit/volt/store"
 )
 
 // ── Table ─────────────────────────────────────────────────────────────────────
@@ -88,7 +88,7 @@ func renderAppDrain(m Model) string {
 
 	if len(records) == 0 {
 		sb.WriteString("  " + styleMuted.Render("No data for this period.") + "\n")
-		sb.WriteString("  " + styleMuted.Render("Run  mac-battery install  to start the background daemon.") + "\n")
+		sb.WriteString("  " + styleMuted.Render("Run  volt install  to start the background daemon.") + "\n")
 		return sb.String()
 	}
 

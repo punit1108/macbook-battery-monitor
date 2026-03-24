@@ -5,9 +5,9 @@ import (
 	"os"
 
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/ppunit/mac_battery/agent"
-	"github.com/ppunit/mac_battery/daemon"
-	"github.com/ppunit/mac_battery/tui"
+	"github.com/ppunit/volt/agent"
+	"github.com/ppunit/volt/daemon"
+	"github.com/ppunit/volt/tui"
 )
 
 func main() {
@@ -44,11 +44,11 @@ func main() {
 }
 
 func printUsage() {
-	fmt.Println(`mac-battery — macOS battery analytics TUI
+	fmt.Println(`volt — macOS battery analytics TUI
 
 Usage:
-  mac-battery            Launch the interactive TUI
-  mac-battery daemon     Run the background data collector
-  mac-battery install    Install daemon as a LaunchAgent (auto-start on login)
-  mac-battery uninstall  Remove the LaunchAgent and binary`)
+  volt            Launch the interactive TUI
+  volt daemon     Run the background data collector
+  volt install    Install daemon as a LaunchAgent (auto-start on login)
+  volt uninstall  Remove the LaunchAgent and binary`)
 }

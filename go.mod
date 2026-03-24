@@ -1,4 +1,4 @@
-module github.com/ppunit/mac_battery
+module github.com/ppunit/volt
 
 go 1.24.4
 

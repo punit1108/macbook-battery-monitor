@@ -6,7 +6,7 @@ import (
 
 	"github.com/charmbracelet/bubbles/progress"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/ppunit/mac_battery/collect"
+	"github.com/ppunit/volt/collect"
 )
 
 func renderDashboard(m Model) string {

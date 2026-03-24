@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/charmbracelet/lipgloss"
-	"github.com/ppunit/mac_battery/store"
+	"github.com/ppunit/volt/store"
 )
 
 func renderHistory(m Model) string {
@@ -17,7 +17,7 @@ func renderHistory(m Model) string {
 	records := m.history
 	if len(records) == 0 {
 		sb.WriteString("  " + styleMuted.Render("No history data yet.") + "\n")
-		sb.WriteString("  " + styleMuted.Render("Start collecting: mac-battery install") + "\n")
+		sb.WriteString("  " + styleMuted.Render("Start collecting: volt install") + "\n")
 		sb.WriteString("  " + styleMuted.Render("Data updates every 60 seconds.") + "\n")
 		return sb.String()
 	}

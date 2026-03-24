@@ -1,8 +1,8 @@
 package tui
 
 import (
-	"github.com/ppunit/mac_battery/collect"
-	"github.com/ppunit/mac_battery/store"
+	"github.com/ppunit/volt/collect"
+	"github.com/ppunit/volt/store"
 )
 
 // tickMsg fires on the 3-second refresh timer.

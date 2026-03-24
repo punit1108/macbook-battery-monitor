@@ -9,8 +9,8 @@ import (
 	"github.com/charmbracelet/bubbles/table"
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
-	"github.com/ppunit/mac_battery/collect"
-	"github.com/ppunit/mac_battery/store"
+	"github.com/ppunit/volt/collect"
+	"github.com/ppunit/volt/store"
 )
 
 // ── view ──────────────────────────────────────────────────────────────────────
@@ -370,7 +370,7 @@ func renderHeader(active view, width int) string {
 		parts = append(parts, " ")
 	}
 
-	title := lipgloss.NewStyle().Foreground(colorCyan).Bold(true).Render("MacBattery")
+	title := lipgloss.NewStyle().Foreground(colorCyan).Bold(true).Render("Volt")
 	tabRow := strings.Join(parts, "")
 	sep := styleMuted.Render(strings.Repeat("─", width))
 
