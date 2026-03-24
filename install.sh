@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-# mac-battery installer
+# volt installer
 # Usage: curl -fsSL https://raw.githubusercontent.com/ppunit/mac_battery/main/install.sh | bash
 set -euo pipefail
 
 REPO_URL="https://github.com/ppunit/mac_battery.git"
-BIN_NAME="mac-battery"
+BIN_NAME="volt"
 INSTALL_DIR="${INSTALL_DIR:-$HOME/.local/bin}"
 
 # ── Output helpers ────────────────────────────────────────────────────────────
@@ -21,7 +21,7 @@ die()  { printf "${RD}✗${RS}  %s\n"   "$*" >&2; exit 1; }
 br()   { printf "\n"; }
 
 # ── Platform check ────────────────────────────────────────────────────────────
-[ "$(uname)" = "Darwin" ] || die "mac-battery only supports macOS."
+[ "$(uname)" = "Darwin" ] || die "volt only supports macOS."
 
 ARCH="$(uname -m)"
 case "$ARCH" in
@@ -53,7 +53,7 @@ ensure_go() {
     ok "Go $(go version | awk '{print $3}')"
   else
     br
-    printf "Go is required to build mac-battery.\n"
+    printf "Go is required to build volt.\n"
     printf "Install options:\n"
     printf "  Homebrew (recommended):  https://brew.sh  then  brew install go\n"
     printf "  Direct download:         https://go.dev/dl\n"
@@ -73,7 +73,7 @@ git clone --quiet --depth 1 "$REPO_URL" "$TMP/src" \
   || die "Failed to clone $REPO_URL — check your internet connection."
 ok "Source ready"
 
-step "Building mac-battery (this may take a moment on first run)..."
+step "Building volt (this may take a moment on first run)..."
 (
   cd "$TMP/src"
   GOFLAGS="-mod=mod" go build -ldflags="-s -w" -o "$TMP/$BIN_NAME" . 2>&1
@@ -103,7 +103,7 @@ add_to_shell_rc() {
   if [ -f "$rc" ] && grep -q '\.local/bin' "$rc" 2>/dev/null; then
     return  # already present
   fi
-  printf '\n# Added by mac-battery installer\n%s\n' "$path_line" >> "$rc"
+  printf '\n# Added by volt installer\n%s\n' "$path_line" >> "$rc"
   ok "Added ~/.local/bin to PATH in $rc"
 }
 
@@ -115,7 +115,7 @@ if ! printf "%s" "$PATH" | grep -q "$HOME/.local/bin"; then
     bash) add_to_shell_rc "$HOME/.bash_profile" ;;
     *)    add_to_shell_rc "$HOME/.profile"      ;;
   esac
-  warn "Run this to use mac-battery in your current session:"
+  warn "Run this to use volt in your current session:"
   printf "      export PATH=\"\$HOME/.local/bin:\$PATH\"\n"
 fi
 
@@ -140,18 +140,18 @@ case "${ANSWER:-y}" in
   [Yy]*)
     step "Installing LaunchAgent..."
     "$INSTALL_DIR/$BIN_NAME" install \
-      || die "Daemon install failed. Try running:  mac-battery install"
+      || die "Daemon install failed. Try running:  volt install"
     ;;
   *)
-    warn "Skipped. Run  mac-battery install  whenever you're ready."
+    warn "Skipped. Run  volt install  whenever you're ready."
     ;;
 esac
 
 # ── Done ──────────────────────────────────────────────────────────────────────
 br
-printf "${GR}${BD}All done!${RS} mac-battery is installed.\n"
+printf "${GR}${BD}All done!${RS} volt is installed.\n"
 br
-printf "  ${CY}mac-battery${RS}             Open the TUI\n"
-printf "  ${CY}mac-battery install${RS}     Start background data collection\n"
-printf "  ${CY}mac-battery uninstall${RS}   Remove daemon and binary\n"
+printf "  ${CY}volt${RS}             Open the TUI\n"
+printf "  ${CY}volt install${RS}     Start background data collection\n"
+printf "  ${CY}volt uninstall${RS}   Remove daemon and binary\n"
 br

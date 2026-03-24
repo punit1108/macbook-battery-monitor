@@ -1,4 +1,4 @@
-# mac-battery
+# volt
 
 A macOS battery analytics tool with a terminal UI. Runs a lightweight background daemon that continuously logs battery and process data, and a bubbletea TUI to explore it.
 
@@ -23,28 +23,28 @@ A macOS battery analytics tool with a terminal UI. Runs a lightweight background
 ### One-line install (recommended)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/ppunit/mac_battery/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/punit1108/volt/main/install.sh | bash
 ```
 
 The script will:
 1. Check for Go and install it via Homebrew if missing
-2. Clone the repo, build the binary, and install it to `~/.local/bin/mac-battery`
+2. Clone the repo, build the binary, and install it to `~/.local/bin/volt`
 3. Add `~/.local/bin` to your `$PATH` if needed
 4. Prompt to install the background daemon (recommended)
 
 To install to a custom location:
 
 ```bash
-INSTALL_DIR=/usr/local/bin curl -fsSL https://raw.githubusercontent.com/ppunit/mac_battery/main/install.sh | bash
+INSTALL_DIR=/usr/local/bin curl -fsSL https://raw.githubusercontent.com/punit1108/volt/main/install.sh | bash
 ```
 
 ### Manual install
 
 ```bash
-git clone https://github.com/ppunit/mac_battery.git
+git clone https://github.com/punit1108/volt.git
 cd mac_battery
-go build -o mac-battery .
-./mac-battery install   # installs daemon + copies binary to ~/.local/bin
+go build -o volt .
+./volt install   # installs daemon + copies binary to ~/.local/bin
 ```
 
 ### Background daemon
@@ -52,24 +52,24 @@ go build -o mac-battery .
 The daemon collects battery and process data continuously, even when the TUI is closed. Without it, the App Drain history tab only shows data from sessions when the TUI was open.
 
 ```bash
-mac-battery install      # register as LaunchAgent, auto-start on login
-mac-battery uninstall    # remove daemon (collected data is preserved)
+volt install      # register as LaunchAgent, auto-start on login
+volt uninstall    # remove daemon (collected data is preserved)
 ```
 
 ### Verify
 
 ```bash
-launchctl list | grep mac-battery   # should show a PID
+launchctl list | grep volt   # should show a PID
 tail -f ~/.mac_battery/daemon.log   # live daemon output
 ```
 
 ## Usage
 
 ```
-mac-battery              Launch the TUI
-mac-battery daemon       Run the background collector (foreground)
-mac-battery install      Install as a LaunchAgent (auto-start on login)
-mac-battery uninstall    Remove the LaunchAgent and binary
+volt              Launch the TUI
+volt daemon       Run the background collector (foreground)
+volt install      Install as a LaunchAgent (auto-start on login)
+volt uninstall    Remove the LaunchAgent and binary
 ```
 
 ### TUI key bindings
