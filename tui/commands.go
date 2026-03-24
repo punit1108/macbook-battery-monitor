@@ -28,3 +28,15 @@ func cmdFetchHistory() tea.Msg {
 	records, err := store.ReadLast(200)
 	return historyMsg{records: records, err: err}
 }
+
+func cmdFetchAppDrain(period drainPeriod) tea.Cmd {
+	return func() tea.Msg {
+		since := time.Now().Add(-period.duration())
+		records, err := store.ReadSince(since)
+		if err != nil {
+			return appDrainMsg{err: err}
+		}
+		entries := store.AggregateAppDrain(records, 30)
+		return appDrainMsg{entries: entries, records: records}
+	}
+}

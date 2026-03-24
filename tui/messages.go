@@ -25,3 +25,10 @@ type historyMsg struct {
 	records []store.Record
 	err     error
 }
+
+// appDrainMsg carries aggregated app-drain data for a selected time period.
+type appDrainMsg struct {
+	entries []store.AppDrainEntry
+	records []store.Record
+	err     error
+}

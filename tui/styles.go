@@ -2,18 +2,25 @@ package tui
 
 import "github.com/charmbracelet/lipgloss"
 
+// Dark pastel palette — desaturated, easy on the eyes, dark-terminal friendly.
 var (
-	colorGreen    = lipgloss.Color("#00FF87")
-	colorYellow   = lipgloss.Color("#FFD700")
-	colorRed      = lipgloss.Color("#FF4136")
-	colorCyan     = lipgloss.Color("#00CFFF")
-	colorBgCard   = lipgloss.Color("#161B22")
-	colorBorder   = lipgloss.Color("#30363D")
-	colorText     = lipgloss.Color("#E6EDF3")
-	colorTextDim  = lipgloss.Color("#8B949E")
+	colorAccent   = lipgloss.Color("#5B8DB8") // slate blue  — headers, active tabs
+	colorGood     = lipgloss.Color("#5F9E78") // sage green  — healthy / charging
+	colorWarn     = lipgloss.Color("#B89650") // dark amber  — warnings
+	colorCrit     = lipgloss.Color("#B86060") // muted brick — critical
+	colorBgCard   = lipgloss.Color("#141C26") // dark navy   — card backgrounds
+	colorBorder   = lipgloss.Color("#253040") // steel       — borders
+	colorText     = lipgloss.Color("#B8C8D8") // soft silver — primary text
+	colorTextDim  = lipgloss.Color("#4A5A6A") // dark steel  — secondary text
+	colorTabBg    = lipgloss.Color("#1A2840") // deep navy   — active tab bg
 
+	// Keep colorCyan as an alias used in a few places outside styles.go.
+	colorCyan = colorAccent
+)
+
+var (
 	styleHeader = lipgloss.NewStyle().
-			Foreground(colorCyan).
+			Foreground(colorAccent).
 			Bold(true)
 
 	styleCard = lipgloss.NewStyle().
@@ -30,23 +37,23 @@ var (
 			Bold(true)
 
 	styleGood = lipgloss.NewStyle().
-			Foreground(colorGreen).
+			Foreground(colorGood).
 			Bold(true)
 
 	styleWarn = lipgloss.NewStyle().
-			Foreground(colorYellow).
+			Foreground(colorWarn).
 			Bold(true)
 
 	styleCrit = lipgloss.NewStyle().
-			Foreground(colorRed).
+			Foreground(colorCrit).
 			Bold(true)
 
 	styleMuted = lipgloss.NewStyle().
 			Foreground(colorTextDim)
 
 	styleActiveTab = lipgloss.NewStyle().
-			Foreground(lipgloss.Color("#0D1117")).
-			Background(colorCyan).
+			Foreground(colorText).
+			Background(colorTabBg).
 			Padding(0, 2).
 			Bold(true)
 

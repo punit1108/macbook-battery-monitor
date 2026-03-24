@@ -131,19 +131,21 @@ func ReadLast(maxPoints int) ([]Record, error) {
 
 // AppDrainEntry holds aggregated per-app battery drain data.
 type AppDrainEntry struct {
-	Command      string
-	TotalPower   float64 // sum of energy-impact scores across all snapshots
-	TotalCPU     float64 // sum of CPU % samples
-	Appearances  int     // number of snapshots the app appeared in
-	RecordCount  int     // total records scanned (for percentage)
-	AvgCPU       float64 // TotalCPU / Appearances
-	AvgPower     float64 // TotalPower / Appearances
-	SharePct     float64 // Appearances / RecordCount * 100
+	Command     string
+	TotalPower  float64   // sum of energy-impact scores across all snapshots
+	TotalCPU    float64   // sum of CPU % samples
+	Appearances int       // number of snapshots the app appeared in
+	RecordCount int       // total records scanned (for percentage)
+	AvgCPU      float64   // TotalCPU / Appearances
+	AvgPower    float64   // TotalPower / Appearances
+	SharePct    float64   // Appearances / RecordCount * 100
+	BucketPower []float64 // time-bucketed power values for graph rendering
 }
 
 // AggregateAppDrain aggregates per-app drain from a slice of records.
+// numBuckets controls the resolution of the per-app time series (BucketPower).
 // Returns entries sorted by TotalPower descending.
-func AggregateAppDrain(records []Record) []AppDrainEntry {
+func AggregateAppDrain(records []Record, numBuckets int) []AppDrainEntry {
 	type agg struct {
 		totalPower  float64
 		totalCPU    float64
@@ -200,7 +202,69 @@ func AggregateAppDrain(records []Record) []AppDrainEntry {
 			entries[j], entries[j-1] = entries[j-1], entries[j]
 		}
 	}
+
+	// Build time-bucketed power series for each app in a single pass over records.
+	if numBuckets > 0 && len(records) >= 2 {
+		minTs := records[0].Ts
+		maxTs := records[len(records)-1].Ts
+		span := maxTs.Sub(minTs).Seconds()
+		if span > 0 {
+			// Build a lookup from cmd -> bucket slice.
+			appBuckets := make(map[string][]float64, len(m))
+			for cmd := range m {
+				appBuckets[cmd] = make([]float64, numBuckets)
+			}
+			for _, r := range records {
+				if len(r.TopProcs) == 0 {
+					continue
+				}
+				elapsed := r.Ts.Sub(minTs).Seconds()
+				b := int(elapsed / span * float64(numBuckets))
+				if b >= numBuckets {
+					b = numBuckets - 1
+				}
+				for _, p := range r.TopProcs {
+					if p.Cmd == "" {
+						continue
+					}
+					if buckets, ok := appBuckets[p.Cmd]; ok {
+						buckets[b] += p.Power
+					}
+				}
+			}
+			for i := range entries {
+				entries[i].BucketPower = appBuckets[entries[i].Command]
+			}
+		}
+	}
+
 	return entries
+}
+
+// ReadSince reads all records from the given time onwards across daily JSONL files.
+func ReadSince(since time.Time) ([]Record, error) {
+	dir, err := DataDir()
+	if err != nil {
+		return nil, err
+	}
+
+	var all []Record
+	// Walk dates from since's date to today.
+	day := since.Truncate(24 * time.Hour)
+	today := time.Now().Truncate(24 * time.Hour)
+	for !day.After(today) {
+		path := filepath.Join(dir, day.Format("2006-01-02")+".jsonl")
+		records, err := readFile(path)
+		if err == nil {
+			for _, r := range records {
+				if !r.Ts.Before(since) {
+					all = append(all, r)
+				}
+			}
+		}
+		day = day.AddDate(0, 0, 1)
+	}
+	return all, nil
 }
 
 func readFile(path string) ([]Record, error) {
