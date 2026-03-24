@@ -42,7 +42,7 @@ INSTALL_DIR=/usr/local/bin curl -fsSL https://raw.githubusercontent.com/punit110
 
 ```bash
 git clone https://github.com/punit1108/volt.git
-cd mac_battery
+cd volt
 go build -o volt .
 ./volt install   # installs daemon + copies binary to ~/.local/bin
 ```
@@ -60,7 +60,7 @@ volt uninstall    # remove daemon (collected data is preserved)
 
 ```bash
 launchctl list | grep volt   # should show a PID
-tail -f ~/.mac_battery/daemon.log   # live daemon output
+tail -f ~/.volt/daemon.log   # live daemon output
 ```
 
 ## Usage
@@ -93,10 +93,10 @@ volt uninstall    Remove the LaunchAgent and binary
 
 ## Data collection
 
-The daemon writes one JSON record per minute to `~/.mac_battery/data/YYYY-MM-DD.jsonl`. Process data is sampled every 5 minutes (the more expensive `top` call).
+The daemon writes one JSON record per minute to `~/.volt/data/YYYY-MM-DD.jsonl`. Process data is sampled every 5 minutes (the more expensive `top` call).
 
 ```
-~/.mac_battery/
+~/.volt/
 ├── data/
 │   ├── 2026-03-24.jsonl
 │   └── 2026-03-25.jsonl
@@ -138,7 +138,7 @@ The daemon is designed to have negligible impact on battery life:
 ## Project structure
 
 ```
-mac_battery/
+volt/
 ├── main.go          CLI entry point
 ├── collect/         ioreg and top parsers
 ├── store/           JSONL read/write and aggregation

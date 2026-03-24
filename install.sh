@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # volt installer
-# Usage: curl -fsSL https://raw.githubusercontent.com/ppunit/mac_battery/main/install.sh | bash
+# Usage: curl -fsSL https://raw.githubusercontent.com/punit1108/volt/main/install.sh | bash
 set -euo pipefail
 
-REPO_URL="https://github.com/ppunit/mac_battery.git"
+REPO_URL="https://github.com/punit1108/volt.git"
 BIN_NAME="volt"
 INSTALL_DIR="${INSTALL_DIR:-$HOME/.local/bin}"
 
